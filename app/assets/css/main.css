@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;900&display=swap');
+
+* {
+    font-family: 'Nunito', sans-serif;
+}
+
+/* 커스텀 마우스 커서 */
+* {
+    cursor: url('/cursor/cursor-default.png') 4 4, auto;
+}
+
+a, button, [role="button"], .cursor-pointer, label {
+    cursor: url('/cursor/cursor-pointer.png') 8 4, pointer;
+}
+
+/* 로딩 중에는 전체 화면에 로딩 커서 */
+html.is-loading,
+html.is-loading * {
+    cursor: url('/cursor/cursor-wait.png') 4 4, wait !important;
+}

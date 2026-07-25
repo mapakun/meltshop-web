@@ -1,0 +1,32 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model mt_portfolio {
+  id                 Int                  @id @default(autoincrement())
+  characterName      String
+  workTitle          String
+  imageUrl           String
+  order              Int                  @default(0)
+  published          Boolean              @default(true)
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @default(now()) @updatedAt
+  description        String?              @db.VarChar(200)
+  mt_portfolio_image mt_portfolio_image[]
+}
+
+model mt_portfolio_image {
+  id           Int          @id @default(autoincrement())
+  portfolioId  Int
+  imageUrl     String
+  order        Int          @default(0)
+  createdAt    DateTime     @default(now())
+  mt_portfolio mt_portfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "mt_portfolio_image_portfolio_fk")
+
+  @@index([portfolioId], map: "idx_mt_portfolio_image_portfolio")
+}
