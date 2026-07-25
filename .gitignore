@@ -33,3 +33,6 @@ Thumbs.db
 # 에디터
 .vscode/*
 !.vscode/extensions.json
+
+# Claude 작업 노트
+CLAUDE.md
