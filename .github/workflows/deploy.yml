@@ -25,7 +25,7 @@ jobs:
 
             # 최신 코드 받기 (없으면 clone)
             if [ ! -d repo ]; then
-              git clone https://github.com/사용자명/meltshop-web.git repo
+              git clone https://github.com/mapakun/meltshop-web.git repo
             fi
             cd repo
             git fetch origin master
