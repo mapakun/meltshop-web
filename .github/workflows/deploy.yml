@@ -1,8 +1,6 @@
 name: Deploy to Lightsail VM
 
 on:
-  push:
-    branches: [master]
   workflow_dispatch:        # Actions 탭에서 수동 실행 버튼 추가
 
 jobs:
