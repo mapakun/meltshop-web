@@ -3,6 +3,7 @@ name: Deploy to Lightsail VM
 on:
   push:
     branches: [master]
+  workflow_dispatch:        # Actions 탭에서 수동 실행 버튼 추가
 
 jobs:
   deploy:
@@ -19,6 +20,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             set -e
+            mkdir -p ~/meltshop
             cd ~/meltshop
 
             # 최신 코드 받기 (없으면 clone)
@@ -29,8 +31,10 @@ jobs:
             git fetch origin master
             git reset --hard origin/master
 
-            # 빌드 & 실행 (.env는 상위 폴더의 것 사용)
+            # 빌드
             docker build -t meltshop-web:latest .
+
+            # 기존 컨테이너 정리 후 재실행
             docker stop meltshop-web || true
             docker rm meltshop-web || true
             docker run -d --name meltshop-web \
@@ -38,3 +42,10 @@ jobs:
               --restart unless-stopped \
               -p 3000:3000 \
               meltshop-web:latest
+
+            # 오래된 이미지 정리 (디스크 절약)
+            docker image prune -f
+
+            # 배포 확인
+            sleep 5
+            docker ps --filter "name=meltshop-web"
