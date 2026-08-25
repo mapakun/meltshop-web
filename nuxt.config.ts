@@ -25,6 +25,7 @@ export default defineNuxtConfig({
     adminSessionSecret: process.env.ADMIN_SESSION_SECRET,
     public: {
       r2PublicUrl: process.env.R2_PUBLIC_URL,
-    }
+    },
+    originGuard: process.env.ORIGIN_GUARD,
   }
 })
