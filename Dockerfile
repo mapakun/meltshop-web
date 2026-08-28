@@ -5,7 +5,7 @@ WORKDIR /app
 
 # 의존성 설치 (캐시 최적화)
 COPY package*.json ./
-RUN npm ci
+RUN npm install
 
 # Prisma 클라이언트 생성을 위한 스키마 복사
 COPY prisma ./prisma
