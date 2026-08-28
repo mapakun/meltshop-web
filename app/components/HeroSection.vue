@@ -16,7 +16,8 @@
 
     <!-- 버튼 -->
     <a
-        href="#contact"
+        href="https://pf.kakao.com/_dxefxnX"
+        target="_blank"
         class="flex items-center gap-2 bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold px-8 py-3 rounded-full transition-colors"
     >
       <span>●</span> 견적 문의하기
