@@ -30,3 +30,25 @@ model mt_portfolio_image {
 
   @@index([portfolioId], map: "idx_mt_portfolio_image_portfolio")
 }
+
+model mt_customer {
+  id               Int                @id @default(autoincrement())
+  name             String
+  phone            String             @unique(map: "mt_customer_phone_unique")
+  point            Int                @default(0)
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @default(now())
+  mt_point_history mt_point_history[]
+}
+
+model mt_point_history {
+  id          Int         @id @default(autoincrement())
+  customerId  Int
+  amount      Int
+  reason      String?
+  balance     Int
+  createdAt   DateTime    @default(now())
+  mt_customer mt_customer @relation(fields: [customerId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "mt_point_history_customer_fk")
+
+  @@index([customerId], map: "idx_mt_point_history_customer")
+}
