@@ -7,6 +7,7 @@
       <ul class="flex items-center gap-8 text-sm text-gray-700">
         <li><NuxtLink to="/#about" class="hover:text-yellow-500 transition-colors">소개</NuxtLink></li>
         <li><NuxtLink to="/portfolio" class="hover:text-yellow-500 transition-colors">작업물</NuxtLink></li>
+        <li><NuxtLink to="/point" class="hover:text-yellow-500 transition-colors">포인트</NuxtLink></li>
         <li><NuxtLink to="/#notice" class="hover:text-yellow-500 transition-colors">공지</NuxtLink></li>
         <li><NuxtLink to="/#contact" class="hover:text-yellow-500 transition-colors">문의</NuxtLink></li>
       </ul>
