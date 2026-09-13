@@ -1,11 +1,13 @@
 name: Deploy to Lightsail VM
 
 on:
-  workflow_dispatch:        # Actions 탭에서 수동 실행 버튼 추가
+  workflow_dispatch:        # Actions 탭에서 수동 실행 (브랜치 선택 가능)
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      DEPLOY_BRANCH: ${{ github.ref_name }}   # 실행 시 선택한 브랜치
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -16,6 +18,7 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          envs: DEPLOY_BRANCH                  # 서버로 브랜치명 전달
           script: |
             set -e
             mkdir -p ~/meltshop
@@ -26,8 +29,10 @@ jobs:
               git clone https://github.com/mapakun/meltshop-web.git repo
             fi
             cd repo
-            git fetch origin master
-            git reset --hard origin/master
+
+            # 선택한 브랜치로 동기화
+            git fetch origin "$DEPLOY_BRANCH"
+            git reset --hard "origin/$DEPLOY_BRANCH"
 
             # 빌드
             docker build -t meltshop-web:latest .
@@ -47,3 +52,4 @@ jobs:
             # 배포 확인
             sleep 5
             docker ps --filter "name=meltshop-web"
+            echo "배포된 브랜치: $DEPLOY_BRANCH"

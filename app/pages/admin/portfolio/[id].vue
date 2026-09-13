@@ -2,7 +2,7 @@
   <div class="min-h-screen py-12 px-6" style="background-color: #FEFCE8;">
     <div class="max-w-2xl mx-auto">
 
-      <NuxtLink to="/admin" class="text-sm underline mb-6 inline-block" style="color: #9B7B4B;">← 목록으로</NuxtLink>
+      <NuxtLink to="/admin/portfolio" class="text-sm underline mb-6 inline-block" style="color: #9B7B4B;">← 목록으로</NuxtLink>
 
       <template v-if="item">
         <h1 class="text-2xl font-black mb-8" style="color: #3D2B1F;">
