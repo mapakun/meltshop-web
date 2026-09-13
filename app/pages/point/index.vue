@@ -8,8 +8,8 @@
       <!-- 조회 폼 -->
       <div v-if="!result" class="rounded-2xl p-6" style="background-color: #FFFDF0;">
         <p class="text-sm mb-4" style="color: #6B5B4B;">등록하신 이름과 핸드폰 번호를 입력해 주세요.</p>
-        <input v-model="form.name" placeholder="이름 / 닉네임" class="w-full px-4 py-3 rounded-xl outline-none mb-3" style="background-color: #FEFCE8;" />
-        <input v-model="form.phone" placeholder="고객번호" class="w-full px-4 py-3 rounded-xl outline-none mb-4" style="background-color: #FEFCE8;" />
+        <input v-model="form.name" @keyup.enter="lookup" placeholder="닉네임" class="w-full px-4 py-3 rounded-xl outline-none mb-3" style="background-color: #FEFCE8;" />
+        <input v-model="form.phone" @keyup.enter="lookup" placeholder="고객번호" class="w-full px-4 py-3 rounded-xl outline-none mb-4" style="background-color: #FEFCE8;" />
         <p v-if="error" class="text-sm text-center mb-3" style="color: #D04040;">{{ error }}</p>
         <button
             @click="lookup"
