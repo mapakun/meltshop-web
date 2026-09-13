@@ -1,6 +1,17 @@
 <template>
   <section class="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-14" style="background-color: #FEFCE8;">
 
+    <!-- 수주 상태 배너 -->
+    <div class="absolute top-16 left-1/2 -translate-x-1/2 z-20 w-[92%] max-w-md px-1">
+      <div class="rounded-2xl px-4 py-3 text-center" style="background-color: rgba(255,255,255,0.88);">
+        <div class="flex items-center justify-center gap-2">
+          <span class="status-dot" :style="{ backgroundColor: statusMeta.color }"></span>
+          <span class="text-sm font-black" :style="{ color: statusMeta.color }">{{ statusMeta.label }}</span>
+        </div>
+        <p v-if="shopStatus.memo" class="text-xs mt-1 whitespace-pre-wrap" style="color: #6B5B4B;">{{ shopStatus.memo }}</p>
+      </div>
+    </div>
+
     <!-- 멜트 작업물 배경 -->
     <div v-if="!reduced && works.length" class="absolute inset-0 z-0 pointer-events-none">
       <div
@@ -25,7 +36,7 @@
     <div class="absolute top-16 left-16 w-40 h-40 rounded-full bg-teal-200/40 z-0"></div>
     <div class="absolute bottom-24 right-8 w-48 h-48 rounded-full bg-pink-200/30 z-0"></div>
 
-    <!-- 콘텐츠 (배경 위) -->
+    <!-- 콘텐츠 -->
     <div class="relative z-10 flex flex-col items-center">
       <div class="w-36 h-36 mb-6">
         <img src="/images/character.png" alt="멜트샵 캐릭터" class="w-full h-full object-contain" />
@@ -51,6 +62,14 @@
 const { data } = await useFetch('/api/portfolio', { query: { all: 1 } })
 const works = computed(() => data.value?.items ?? [])
 
+const { data: statusData } = await useFetch('/api/shop-status')
+const shopStatus = computed(() => statusData.value ?? { status: 'OPEN', memo: '' })
+const statusMeta = computed(() => ({
+  OPEN:   { color: '#2E9E5B', label: '수주 가능' },
+  BUSY:   { color: '#E8A020', label: '수주 지연' },
+  CLOSED: { color: '#D04040', label: '수주 마감' },
+}[shopStatus.value.status] ?? { color: '#2E9E5B', label: '수주 가능' }))
+
 const SLOT_COUNT = 6
 
 const slotIndexes = ref(
@@ -62,12 +81,8 @@ const slotIndexes = ref(
 const advance = (i) => {
   const len = works.value.length
   if (len <= 1) return
-
   const shown = new Set(slotIndexes.value)
-  const candidates = works.value
-      .map((_, idx) => idx)
-      .filter(idx => !shown.has(idx))
-
+  const candidates = works.value.map((_, idx) => idx).filter(idx => !shown.has(idx))
   if (candidates.length) {
     slotIndexes.value[i] = candidates[Math.floor(Math.random() * candidates.length)]
   } else {
@@ -84,6 +99,17 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  animation: statuspulse 1.6s ease-in-out infinite;
+}
+@keyframes statuspulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%      { transform: scale(1.35); opacity: 0.6; }
+}
+
 .melt-bg-card {
   position: absolute;
   width: 180px;
@@ -95,7 +121,6 @@ onMounted(() => {
   animation: melt 5.5s ease-in-out infinite backwards;
 }
 
-/* 데스크탑 위치 (중심 쪽으로 모음) */
 .slot-0 { top: 16%; left: 20%; }
 .slot-1 { top: 20%; right: 20%; }
 .slot-2 { bottom: 18%; left: 24%; }
@@ -103,7 +128,6 @@ onMounted(() => {
 .slot-4 { top: 38%; left: 12%; }
 .slot-5 { top: 42%; right: 12%; }
 
-/* 모바일: 4장만 네 모서리로, 크기 축소, 중앙 비움 */
 @media (max-width: 640px) {
   .melt-bg-card { width: 100px; height: 125px; }
   .slot-0 { top: 4%;    left: 2%;  right: auto; bottom: auto; }
