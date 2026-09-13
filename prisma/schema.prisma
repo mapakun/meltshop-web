@@ -52,3 +52,10 @@ model mt_point_history {
 
   @@index([customerId], map: "idx_mt_point_history_customer")
 }
+
+model mt_shop_status {
+  id        Int      @id @default(autoincrement())
+  status    String   @default("OPEN")
+  memo      String?
+  updatedAt DateTime @default(now())
+}
