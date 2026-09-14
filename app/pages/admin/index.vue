@@ -19,6 +19,11 @@
           <p class="font-black text-lg mb-1" style="color: #3D2B1F;">고객 관리</p>
           <p class="text-sm" style="color: #9B7B4B;">고객 정보·포인트 적립 관리</p>
         </NuxtLink>
+        <NuxtLink to="/admin/status" class="rounded-2xl p-8 block transition-transform hover:scale-[1.02]" style="background-color: #FFFDF0;">
+          <div class="text-4xl mb-4">🚦</div>
+          <p class="font-black text-lg mb-1" style="color: #3D2B1F;">수주 상태 관리</p>
+          <p class="text-sm" style="color: #9B7B4B;">수주 가능 여부·안내 메모 설정</p>
+        </NuxtLink>
       </div>
 
     </div>
